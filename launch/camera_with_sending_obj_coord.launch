@@ -1,6 +1,6 @@
 <launch>
 			<!-- Launch the camera -->
-		<include file="$(find realsense2_camera)/launch/rs_camera.launch">
+	<include file="$(find realsense2_camera)/launch/rs_camera.launch">
             <arg name="serial_no"           default=""/>
             <arg name="json_file_path"      default=""/>
 
@@ -46,6 +46,14 @@
             <arg name="calib_odom_file"           default=""/>
             <arg name="publish_odom_tf"           default="true"/>
             <arg name="allow_no_texture_points"   default="false"/>
-		</include>
+	</include>
+
+	<include file="$(find aruco_detect)/launch/aruco_detect.launch">
+ 		<arg name="camera" default="camera/color"/>  /// source of images from camera
+ 		<arg name="image" default="image_raw"/> /// type of images
+ 		<arg name="transport" default="compressed"/>
+ 		<arg name="fiducial_len" default="0.140"/> /// size of marker on paper in meters
+	</include>
+
 
 </launch>
