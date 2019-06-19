@@ -55,5 +55,6 @@
  		<arg name="fiducial_len" default="0.140"/> /// size of marker on paper in meters
 	</include>
 
+    <node name="tf_from_cam_to_robot" pkg="catching_robot_dynamic_field" type="tf_from_cam_to_robot.py" output="screen"/>
 
 </launch>
