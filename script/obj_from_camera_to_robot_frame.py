@@ -1,14 +1,15 @@
+#!/usr/bin/env python
+
 import rospy
 import tf2_geometry_msgs  # import the packages first
 import tf2_ros
-from geometry_msgs.msg import PointStamped
+from geometry_msgs.msg import PointStamped, Point
 
 pub = rospy.Publisher('obj_from_camera_to_robot_frame', PointStamped, queue_size=10)
 
 
 def TFcallback(data):
-    global pub, tf_buffer, transform
-
+    global pub, tf_buffer
     transform = tf_buffer.lookup_transform("robot_base",
                                            data.header.frame_id,  # source frame
                                            rospy.Time(0),  # get the tf at first available time
@@ -16,7 +17,8 @@ def TFcallback(data):
     point_stamped_transformed = PointStamped()
     point_stamped_transformed.header.stamp = rospy.Time.now()
     point_stamped_transformed.header.frame_id = "robot_base"
-    point_stamped_transformed.point = tf2_geometry_msgs.do_transform_point(data.point, transform)
+    temp = tf2_geometry_msgs.do_transform_point(data, transform)
+    point_stamped_transformed.point = temp.point
     pub.publish(point_stamped_transformed)
 
 
