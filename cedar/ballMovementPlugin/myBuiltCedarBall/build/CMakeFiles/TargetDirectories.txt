@@ -1,0 +1,3 @@
+/home/sarrasor/Downloads/ballMovementPlugin/build/CMakeFiles/rebuild_cache.dir
+/home/sarrasor/Downloads/ballMovementPlugin/build/CMakeFiles/ballMovement.dir
+/home/sarrasor/Downloads/ballMovementPlugin/build/CMakeFiles/edit_cache.dir
