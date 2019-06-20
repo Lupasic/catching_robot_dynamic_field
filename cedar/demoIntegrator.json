@@ -1,0 +1,449 @@
+{
+    "meta": {
+        "format": "1"
+    },
+    "steps": {
+        "cedar.processing.ComponentMultiply": {
+            "name": "Component Multiply",
+            "comments": ""
+        },
+        "cedar.processing.ComponentMultiply": {
+            "name": "Component Multiply 2",
+            "comments": ""
+        },
+        "cedar.processing.ConstVector": {
+            "name": "Const Vector",
+            "number of vector entries": "1",
+            "entries": [
+                "-19.600000000000001"
+            ],
+            "comments": ""
+        },
+        "cedar.processing.ConstVector": {
+            "name": "Const Vector 2",
+            "number of vector entries": "1",
+            "entries": [
+                "19"
+            ],
+            "comments": ""
+        },
+        "cedar.processing.steps.NumericalIntegration": {
+            "name": "Numerical Integration",
+            "initialize on reset": "true",
+            "use BDF5": "false",
+            "comments": ""
+        },
+        "cedar.processing.steps.NumericalIntegration": {
+            "name": "Numerical Integration 2",
+            "initialize on reset": "true",
+            "use BDF5": "false",
+            "comments": ""
+        },
+        "cedar.processing.steps.NumericalIntegration": {
+            "name": "Numerical Integration 3",
+            "initialize on reset": "true",
+            "use BDF5": "false",
+            "comments": ""
+        },
+        "cedar.processing.steps.NumericalIntegration": {
+            "name": "Numerical Integration 4",
+            "initialize on reset": "true",
+            "use BDF5": "false",
+            "comments": ""
+        },
+        "cedar.processing.ScalarsToVector": {
+            "name": "Scalars To Vector",
+            "number of vector entries": "3",
+            "comments": ""
+        },
+        "cedar.processing.steps.ShapeVisualisation": {
+            "name": "Shape Visualisation",
+            "colour": "green",
+            "shape": "Sphere",
+            "scale": "0.025000000000000001",
+            "comments": ""
+        },
+        "cedar.processing.StaticGain": {
+            "name": "Static Gain",
+            "gain factor": "0.01",
+            "comments": ""
+        },
+        "cedar.processing.sources.StepSignal": {
+            "name": "Step Signal",
+            "period": "0",
+            "amplitude": "1",
+            "phase shift": "0",
+            "vertical offset": "-9.8100000000000005",
+            "comments": ""
+        },
+        "cedar.processing.sources.StepSignal": {
+            "name": "XChange",
+            "period": "0",
+            "amplitude": "1",
+            "phase shift": "0",
+            "vertical offset": "-0.10000000000000001",
+            "comments": ""
+        },
+        "cedar.processing.sources.Boost": {
+            "name": "XStart",
+            "strength": "40",
+            "active": "true",
+            "deactivate on reset": "false",
+            "comments": ""
+        },
+        "cedar.processing.sources.StepSignal": {
+            "name": "YChange",
+            "period": "0",
+            "amplitude": "1",
+            "phase shift": "0",
+            "vertical offset": "1",
+            "comments": ""
+        },
+        "cedar.processing.sources.Boost": {
+            "name": "YStart",
+            "strength": "10",
+            "active": "true",
+            "deactivate on reset": "false",
+            "comments": ""
+        },
+        "cedar.processing.sources.StepSignal": {
+            "name": "ZChange",
+            "period": "0",
+            "amplitude": "1",
+            "phase shift": "0",
+            "vertical offset": "-9.8100000000000005",
+            "comments": ""
+        },
+        "cedar.processing.sources.Boost": {
+            "name": "ZStart",
+            "strength": "3",
+            "active": "false",
+            "deactivate on reset": "false",
+            "comments": ""
+        }
+    },
+    "triggers": {
+        "cedar.processing.LoopedTrigger": {
+            "name": "default trigger",
+            "step size": "0.02 s",
+            "fake Euler step size": "0.02 s",
+            "minimum sleep time": "0.0002 s",
+            "idle time": "1e-05 s",
+            "simulated time": "0.001 s",
+            "loop mode": "real deltaT",
+            "start with all": "true",
+            "listeners": [
+                "YChange",
+                "XChange",
+                "ZChange",
+                "Step Signal"
+            ]
+        }
+    },
+    "connections": [
+        {
+            "source": "YChange.signal",
+            "target": "Numerical Integration.input"
+        },
+        {
+            "source": "XChange.signal",
+            "target": "Numerical Integration 2.input"
+        },
+        {
+            "source": "YStart.boost",
+            "target": "Numerical Integration.initial state (optional)"
+        },
+        {
+            "source": "XStart.boost",
+            "target": "Numerical Integration 2.initial state (optional)"
+        },
+        {
+            "source": "Static Gain.output",
+            "target": "Shape Visualisation.target position"
+        },
+        {
+            "source": "Numerical Integration.integration result",
+            "target": "Scalars To Vector.scalar 0"
+        },
+        {
+            "source": "Scalars To Vector.vector",
+            "target": "Static Gain.input"
+        },
+        {
+            "source": "Numerical Integration 2.integration result",
+            "target": "Scalars To Vector.scalar 1"
+        },
+        {
+            "source": "ZChange.signal",
+            "target": "Numerical Integration 3.input"
+        },
+        {
+            "source": "ZStart.boost",
+            "target": "Numerical Integration 3.initial state (optional)"
+        },
+        {
+            "source": "ZStart.boost",
+            "target": "Numerical Integration 4.initial state (optional)"
+        },
+        {
+            "source": "Step Signal.signal",
+            "target": "Numerical Integration 4.input"
+        },
+        {
+            "source": "Numerical Integration 4.integration result",
+            "target": "Component Multiply 2.operands"
+        },
+        {
+            "source": "Numerical Integration 3.integration result",
+            "target": "Component Multiply 2.operands"
+        },
+        {
+            "source": "Const Vector.vector",
+            "target": "Component Multiply 2.operands"
+        },
+        {
+            "source": "Const Vector 2.vector",
+            "target": "Scalars To Vector.scalar 2"
+        }
+    ],
+    "name": "",
+    "connectors": "",
+    "is looped": "true",
+    "time factor": "1",
+    "ui": [
+        {
+            "type": "step",
+            "step": "Component Multiply",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "-309",
+            "positionY": "151"
+        },
+        {
+            "type": "step",
+            "step": "Component Multiply 2",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "168",
+            "positionY": "72"
+        },
+        {
+            "type": "step",
+            "step": "Const Vector",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "83",
+            "positionY": "197"
+        },
+        {
+            "type": "step",
+            "step": "Const Vector 2",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "193",
+            "positionY": "18"
+        },
+        {
+            "type": "step",
+            "step": "Numerical Integration",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "90",
+            "positionY": "-180"
+        },
+        {
+            "type": "step",
+            "step": "Numerical Integration 2",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "90",
+            "positionY": "-60"
+        },
+        {
+            "type": "step",
+            "step": "Numerical Integration 3",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "83",
+            "positionY": "37"
+        },
+        {
+            "type": "step",
+            "step": "Numerical Integration 4",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "81",
+            "positionY": "130"
+        },
+        {
+            "type": "step",
+            "step": "Scalars To Vector",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "273",
+            "positionY": "-56"
+        },
+        {
+            "type": "step",
+            "step": "Shape Visualisation",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "557",
+            "positionY": "-56"
+        },
+        {
+            "type": "step",
+            "step": "Static Gain",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "369",
+            "positionY": "-57"
+        },
+        {
+            "type": "step",
+            "step": "Step Signal",
+            "display style": "ICON_AND_TEXT",
+            "width": "160",
+            "height": "50",
+            "positionX": "-188",
+            "positionY": "130"
+        },
+        {
+            "type": "step",
+            "step": "XChange",
+            "display style": "ICON_AND_TEXT",
+            "width": "160",
+            "height": "50",
+            "positionX": "-188",
+            "positionY": "-60"
+        },
+        {
+            "type": "step",
+            "step": "XStart",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "-9",
+            "positionY": "-46"
+        },
+        {
+            "type": "step",
+            "step": "YChange",
+            "display style": "ICON_AND_TEXT",
+            "width": "160",
+            "height": "50",
+            "positionX": "-186",
+            "positionY": "-180"
+        },
+        {
+            "type": "step",
+            "step": "YStart",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "-12",
+            "positionY": "-166"
+        },
+        {
+            "type": "step",
+            "step": "ZChange",
+            "display style": "ICON_AND_TEXT",
+            "width": "160",
+            "height": "50",
+            "positionX": "-189",
+            "positionY": "34"
+        },
+        {
+            "type": "step",
+            "step": "ZStart",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "-10",
+            "positionY": "74"
+        },
+        {
+            "type": "trigger",
+            "trigger": "default trigger",
+            "width": "30",
+            "height": "30",
+            "positionX": "0",
+            "positionY": "0"
+        }
+    ],
+    "ui view": {
+        "ScrollBarX": "0",
+        "ScrollBarY": "-184",
+        "SliderPosX": "0",
+        "SliderPosY": "-184",
+        "Zoom": "1"
+    },
+    "ui generic": {
+        "group": "",
+        "open plots": "",
+        "plot groups": "",
+        "architecture widgets": "",
+        "robots": {
+            "robot": {
+                "name": "new robot",
+                "template name": "kuka",
+                "loaded template configuration": "simulator",
+                "loaded template configuration name": "",
+                "CarenArm": {
+                    "initial configurations": {
+                        "zeros": {
+                            "0": "0",
+                            "1": "0",
+                            "2": "0",
+                            "3": "0",
+                            "4": "0",
+                            "5": "0",
+                            "6": "0"
+                        }
+                    },
+                    "current initial configuration": "zeros"
+                },
+                "CarenHead": {
+                    "initial configurations": {
+                        "zeros": {
+                            "0": "0",
+                            "1": "0"
+                        }
+                    },
+                    "current initial configuration": "zeros"
+                },
+                "CarenTrunk": {
+                    "initial configurations": {
+                        "zeros": {
+                            "0": "0"
+                        }
+                    },
+                    "current initial configuration": "zeros"
+                }
+            },
+            "robot": {
+                "name": "new robot 2"
+            }
+        },
+        "width": "250",
+        "height": "250",
+        "smart mode": "false",
+        "collapsed": "false",
+        "lock geometry": "false",
+        "uncollapsed width": "250",
+        "uncollapsed height": "250",
+        "positionX": "0",
+        "positionY": "0"
+    }
+}
