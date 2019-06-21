@@ -1,0 +1,3 @@
+/home/sarrasor/Downloads/predictionFieldPlugin/build/CMakeFiles/rebuild_cache.dir
+/home/sarrasor/Downloads/predictionFieldPlugin/build/CMakeFiles/predictionField.dir
+/home/sarrasor/Downloads/predictionFieldPlugin/build/CMakeFiles/edit_cache.dir
