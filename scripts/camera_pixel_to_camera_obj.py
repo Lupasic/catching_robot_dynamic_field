@@ -5,7 +5,7 @@ import rospy
 from geometry_msgs.msg import PointStamped, Point
 from sensor_msgs.msg import Image, CameraInfo
 
-pub = rospy.Publisher('camera_pixel_to_camera_obj', PointStamped, queue_size=10)
+pub = rospy.Publisher('camera_pixel_to_camera_obj', PointStamped, queue_size=3)
 bridge = cv_bridge.CvBridge()
 
 # 1 value is col second is row
@@ -16,7 +16,7 @@ K = None
 def callback(data):
     global pub, cv_image, K
     if cv_image is not None and K is not None:
-        pixel_depth = float(cv_image[int(data.x)][int(data.y)]) * 0.001
+        pixel_depth = float(cv_image[int(data.y)][int(data.x)]) * 0.001
 
         point_stamped = PointStamped()
         point_stamped.header.stamp = rospy.Time.now()

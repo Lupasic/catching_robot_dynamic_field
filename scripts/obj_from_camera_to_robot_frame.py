@@ -5,7 +5,7 @@ import tf2_geometry_msgs  # import the packages first
 import tf2_ros
 from geometry_msgs.msg import PointStamped
 
-pub = rospy.Publisher('obj_from_camera_to_robot_frame', PointStamped, queue_size=10)
+pub = rospy.Publisher('red_ball_xyz', PointStamped, queue_size=3)
 
 
 def TFcallback(data):

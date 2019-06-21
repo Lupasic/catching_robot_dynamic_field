@@ -12,7 +12,6 @@ from kalman_data import *
 
 class Catcher:
     def __init__(self):
-        rospy.Subscriber("red_ball_xyz", Point, self.callback)
         self.tracker = Kalman()
         self.ac = 4
         self.v = 2
@@ -27,6 +26,7 @@ class Catcher:
         self.robot_init()
         self.prev_time = time.time()
         print("ready")
+        rospy.Subscriber("red_ball_xyz", Point, self.callback)
 
     def __del__(self):
         self.robot.close()
@@ -70,8 +70,8 @@ class Catcher:
                 cv2.circle(img, (xxx, zzz), 5, (255, 0, 0), 2)
                 cv2.circle(img, (yyy, zzz), 5, (255, 0, 0), 2)
 
-            cv2.imshow('Frame', img)
-            cv2.waitKey(1)
+            # cv2.imshow('Frame', img)
+            # cv2.waitKey(1)
         print(time.time() - clb_s)
 
     def robot_init(self):
@@ -102,7 +102,7 @@ class Catcher:
         return x_p
 
 
-rospy.init_node('listener', anonymous=True)
+rospy.init_node('catcher', anonymous=True)
 catcher = Catcher()
 try:
     rospy.spin()

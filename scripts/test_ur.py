@@ -12,6 +12,7 @@ v = 1
 for i in range(2):
     time.sleep(1)
     trans = robot.get_pose()
+    robot.up(5)
     print(trans)
     trans.pos.x = 0.0
     trans.pos.y = 0.6
