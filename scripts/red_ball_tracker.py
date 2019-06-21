@@ -18,8 +18,10 @@ cv_image = None
 bridge = cv_bridge.CvBridge()
 bridge1 = cv_bridge.CvBridge()
 sub_back = cv2.createBackgroundSubtractorMOG2(500, 16, 0)
-lower_red = np.array([30, 150, 100])
-upper_red = np.array([255, 255, 180])
+# lower_red = np.array([30, 150, 90])
+# upper_red = np.array([255, 255, 180])
+lower_red = np.array([115, 166, 72])
+upper_red = np.array([202, 2229, 189])
 
 
 def imageCallack(data):
@@ -35,17 +37,19 @@ def imageCallack(data):
 
         im, contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         # print(time.time() - act)
-        rospy.loginfo("raw_end")
+        # rospy.loginfo("raw_end")
         if contours:
             ball_cont = max(contours, key=lambda obj: cv2.contourArea(obj))
             x, y, w, h = cv2.boundingRect(ball_cont)
 
-            if cv2.contourArea(ball_cont) > 500:
+            if cv2.contourArea(ball_cont) > 0 and cv2.contourArea(ball_cont) < 1000:
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            current_point = Point(x + w / 2, y + h / 2, 0)
-            pixel_depth = float(cv_image[int(current_point.y)][int(current_point.x)]) * 0.001
-            transform_to_point(current_point,pixel_depth)
-            pubim.publish(bridge.cv2_to_imgmsg(frame, "rgb8"))
+                current_point = Point(x + w / 2, y + h / 2, 0)
+                pixel_depth = float(cv_image[int(current_point.y)][int(current_point.x)]) * 0.001
+                # print(hsv[:][y + h / 2][x + w / 2])
+                # print(cv2.contourArea(ball_cont))
+                transform_to_point(current_point,pixel_depth)
+                pubim.publish(bridge.cv2_to_imgmsg(frame, "rgb8"))
 
 def imageCallackDepth(data):
     global bridge1, cv_image

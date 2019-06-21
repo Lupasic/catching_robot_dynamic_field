@@ -6,10 +6,10 @@ import tf2_ros
 from geometry_msgs.msg import PointStamped
 
 pub = rospy.Publisher('red_ball_xyz', PointStamped, queue_size=3)
-
+amount = 0
 
 def TFcallback(data):
-    global pub, tf_buffer
+    global pub, tf_buffer, amount
     try:
         transform = tf_buffer.lookup_transform("robot_base",
                                                data.header.frame_id,  # source frame
@@ -23,6 +23,9 @@ def TFcallback(data):
     temp = tf2_geometry_msgs.do_transform_point(data, transform)
     point_stamped_transformed.point = temp.point
     pub.publish(point_stamped_transformed)
+    amount = amount +1
+    print(amount)
+
 
 
 if __name__ == '__main__':

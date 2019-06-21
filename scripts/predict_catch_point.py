@@ -6,12 +6,12 @@ import time
 import math3d as m3d
 from kalman_data import *
 import rospy
-from geometry_msgs.msg import Point
+from geometry_msgs.msg import Point, PointStamped
 import threading
 
 class Predicter:
     def __init__(self):
-        rospy.Subscriber( "red_ball_xyz", Point, self.callback )
+        rospy.Subscriber( "red_ball_xyz", PointStamped, self.callback )
         self.pub = rospy.Publisher( 'catch_point', Point, queue_size=10 )
         self.tracker = Kalman()
         self.x_catch = np.array( [ [ 0. ],
@@ -24,11 +24,11 @@ class Predicter:
 
     def callback(self, data):
         if self.mutex.acquire(False) == False: 
-            #print("good")
+            # print(data.point.x)
             clb_s = time.time()
-            x = data.x
-            y = data.y
-            z = data.z
+            x = data.point.x
+            y = data.point.y
+            z = data.point.z
             #print( data )
             act_time = time.time()
             dt = act_time - self.prev_time
@@ -38,6 +38,7 @@ class Predicter:
             trajectory = self.tracker.trajectory_identification( x, y, z, dt )
             if trajectory.any():
                 pr_x = self.predict_catch_point( trajectory, 0.2 )
+                print(pr_x)
                 if pr_x.any():
                     d = np.linalg.norm( pr_x - self.x_catch )
                     if d > 0.04 and self.coord_valid( pr_x ) == True:
@@ -63,7 +64,7 @@ class Predicter:
 
                 cv2.imshow( 'Frame', img )
                 cv2.waitKey( 1 )'''
-            print(time.time() - clb_s)
+            #print(time.time() - clb_s)
             self.mutex.release()
         #else:
             #print("block")

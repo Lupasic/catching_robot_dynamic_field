@@ -35,18 +35,18 @@ class Catcher:
 
     def callback(self, data):
         self.n +=1
-        if self.lock.acquire(False) == False and self.n > 20: 
+        if self.n > 3:#self.lock.acquire(False) == False and
             print("good",self.n)
             self.trans.pos.x = data.x
-            self.trans.pos.y = data.y
+            self.trans.pos.y = data.y-0.08
             self.trans.pos.z = data.z
             self.robot.set_pose( self.trans, acc=self.ac, vel=self.v, wait=True)
-            self.lock.release()
+            #self.lock.release()
         else:
             print("block",self.n)
 
     def robot_init(self):
-        self.trans.pos.x = 0.0
+        self.trans.pos.x = 0.1
         self.trans.pos.y = 0.4
         self.trans.pos.z = 0.2
         self.trans.orient = np.zeros( (3, 3) )
