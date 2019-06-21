@@ -5,7 +5,7 @@ import rospy
 from geometry_msgs.msg import PointStamped, Point
 from sensor_msgs.msg import Image, CameraInfo
 
-pub = rospy.Publisher('camera_pixel_to_camera_obj', PointStamped, queue_size=3)
+
 bridge = cv_bridge.CvBridge()
 
 # 1 value is col second is row
