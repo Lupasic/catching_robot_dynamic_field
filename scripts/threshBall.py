@@ -2,19 +2,34 @@ import cv2 as cv
 import numpy as np
 import pyrealsense2 as rs
 
+# Press Q to exit
+# Press W to see the bounding box
+# Press E to see the center of the bounding box
+# Press R to see the result
+
+# Camera resolution and FPS
+HEIGHT = 480
+WIDTH = 848
+FPS = 60
+
+# Configure Real Sense
 pipeline = rs.pipeline()
 config = rs.config()
-config.enable_stream(rs.stream.color, 848, 480, rs.format.bgr8, 60)
+config.enable_stream(rs.stream.color, WIDTH, HEIGHT, rs.format.bgr8, FPS)
 pipeline.start(config)
 
 # Show bounding rectangle
 SHOW_RECTANGLE = True
-# Show precise contour
-SHOW_PRECISE = True
 # Show center of a contour
 SHOW_CENTER = True
 # Show result values
-SHOW_RESULT = False
+SHOW_RESULT = True
+# Show info message
+SHOW_INFO = True
+
+# Info message 
+info1 = "Press Q to exit, R to see the result, I to see this message" 
+info2 = "W to see the bounding box, E to see the center of the bounding box"
 
 # HSV Filter 
 LOWER = np.array([28, 166, 72])
@@ -25,7 +40,7 @@ UPPER = np.array([193, 239, 189])
 FONT = cv.FONT_HERSHEY_SIMPLEX
 
 # Filter contours with small area
-NOIZE_AREA = 500
+NOIZE_AREA = 100
 
 # Create a window for sliders and frames
 cv.namedWindow("Tracking", cv.WINDOW_FULLSCREEN)
@@ -41,11 +56,8 @@ cv.createTrackbar("Lower saturation", "Tracking", LOWER[1], 255, nothing)
 cv.createTrackbar("Upper saturation", "Tracking", UPPER[1], 255, nothing)
 cv.createTrackbar("Lower value", "Tracking", LOWER[2], 255, nothing)
 cv.createTrackbar("Upper value", "Tracking", UPPER[2], 255, nothing)
-
-# Info message 
-info1 = 'Press Q to exit, W - steering decision, E - "Stay" boundaries'
-info2 = "U - bounding rectangle, T - precise contour, Y - center of a contour"
-info3 = "I - this message, R - result. WERTYUI keys work as on/off button"
+# Trackbar for noize area
+cv.createTrackbar("Noize area", "Tracking", NOIZE_AREA, int(HEIGHT*WIDTH/5), nothing)
 
 # Result message
 result1 = "Filter:  Lower is " + str(LOWER) + " Upper is " + str(UPPER)
@@ -53,11 +65,10 @@ result3 = "Noize area: " + str(NOIZE_AREA)
 
 while True:
     # Read camera frame
-    # ret, frame = cap.read()
-
     frames = pipeline.wait_for_frames()
     color_frame = frames.get_color_frame()
     frame = np.asanyarray(color_frame.get_data())
+
     # Save original frame
     original = frame
 
@@ -91,12 +102,21 @@ while True:
             # Calculate the x-center of a frame
             xc = int(original.shape[1] / 2)
 
-            if SHOW_PRECISE:        
-                # Find and draw precise contour
-                rect = cv.minAreaRect(cnt)
-                box = cv.boxPoints(rect)
-                box = np.int0(box)
-                cv.drawContours(original, [box], 0, (255,0,0), 1)
+    # Show result
+    if SHOW_RESULT:
+        original[HEIGHT-60:HEIGHT-0, :].fill(0)
+
+        result1 = "Filter:  Lower is " + str(LOWER) + " Upper is " + str(UPPER)
+        result3 = "Noize area: " + str(NOIZE_AREA)
+
+        cv.putText(original, result1, (5, HEIGHT - 40), FONT, 0.55, (255,255,255), 0)
+        cv.putText(original, result3, (5, HEIGHT - 10), FONT, 0.55, (255,255,255), 0)
+
+    # Show info message
+    if SHOW_INFO:
+        original[0:50, :].fill(0)
+        cv.putText(original, info1, (5, 0 + 20), FONT, 0.55, (255,255,255), 0)
+        cv.putText(original, info2, (5, 0 + 40), FONT, 0.55, (255,255,255), 0)
 
     # Convert mask from GRAY to BGR in order to concatenate it with original frame
     mask = cv.cvtColor(mask, cv.COLOR_GRAY2BGR)
@@ -110,20 +130,15 @@ while True:
     # Key logic
     if key == 113:
         break
-    elif key == 119:    
-        SHOW_DECISION = not SHOW_DECISION
-    elif key == 101:
-        SHOW_STAY_BOUNDARIES = not SHOW_STAY_BOUNDARIES
+    elif key == 105:
+        SHOW_INFO = not SHOW_INFO    
     elif key == 114:
         SHOW_RESULT = not SHOW_RESULT
-    elif key == 116:
-        SHOW_PRECISE = not SHOW_PRECISE
-    elif key == 121:
+    elif key == 101:
         SHOW_CENTER = not SHOW_CENTER   
-    elif key == 105:
-        SHOW_INFO = not SHOW_INFO   
-    elif key == 117:
+    elif key == 119:
         SHOW_RECTANGLE = not SHOW_RECTANGLE 
+  
 
     # get current positions of trackbars
     lh = cv.getTrackbarPos("Lower hue", "Tracking")
@@ -140,4 +155,5 @@ while True:
     NOIZE_AREA = cv.getTrackbarPos("Noize area", "Tracking") 
 
 # Close windows
+pipeline.stop()
 cv.destroyAllWindows()      
