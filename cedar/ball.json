@@ -1,0 +1,285 @@
+{
+    "meta": {
+        "format": "1",
+        "required plugins": [
+            "ballMovement"
+        ]
+    },
+    "steps": {
+        "BallPosition": {
+            "name": "Ball Position",
+            "g": "-9.8100000000000005",
+            "init pos": [
+                "3",
+                "3",
+                "0.10000000000000001"
+            ],
+            "init vels": [
+                "-3",
+                "-3",
+                "9.5"
+            ],
+            "comments": ""
+        },
+        "cedar.processing.steps.ShapeVisualisation": {
+            "name": "Shape Visualisation",
+            "colour": "green",
+            "shape": "Sphere",
+            "scale": "0.025000000000000001",
+            "comments": ""
+        },
+        "cedar.processing.VectorToScalars": {
+            "name": "Vector To Scalars",
+            "number of vector entries": "3",
+            "comments": ""
+        }
+    },
+    "triggers": {
+        "cedar.processing.LoopedTrigger": {
+            "name": "default trigger",
+            "step size": "0.02 s",
+            "fake Euler step size": "0.02 s",
+            "minimum sleep time": "0.0002 s",
+            "idle time": "1e-05 s",
+            "simulated time": "0.001 s",
+            "loop mode": "real deltaT",
+            "start with all": "true",
+            "listeners": [
+                "Ball Position"
+            ]
+        }
+    },
+    "connections": [
+        {
+            "source": "Ball Position.position",
+            "target": "Vector To Scalars.input vector"
+        },
+        {
+            "source": "Ball Position.position",
+            "target": "Shape Visualisation.target position"
+        }
+    ],
+    "name": "",
+    "connectors": "",
+    "is looped": "true",
+    "time factor": "1",
+    "ui": [
+        {
+            "type": "step",
+            "step": "Ball Position",
+            "display style": "ICON_AND_TEXT",
+            "width": "160",
+            "height": "50",
+            "positionX": "-540",
+            "positionY": "121"
+        },
+        {
+            "type": "step",
+            "step": "Shape Visualisation",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "-271",
+            "positionY": "167"
+        },
+        {
+            "type": "step",
+            "step": "Vector To Scalars",
+            "display style": "ICON_ONLY",
+            "width": "40",
+            "height": "40",
+            "positionX": "-270",
+            "positionY": "90"
+        },
+        {
+            "type": "trigger",
+            "trigger": "default trigger",
+            "width": "30",
+            "height": "30",
+            "positionX": "0",
+            "positionY": "0"
+        }
+    ],
+    "ui view": {
+        "ScrollBarX": "0",
+        "ScrollBarY": "0",
+        "SliderPosX": "0",
+        "SliderPosY": "0",
+        "Zoom": "1"
+    },
+    "ui generic": {
+        "group": "",
+        "open plots": {
+            "Vector To ScalarsWidget0": {
+                "step": "Vector To Scalars",
+                "position_x": "1231",
+                "position_y": "100",
+                "width": "212",
+                "height": "201",
+                "position_relative_x": "0.6411458333333333",
+                "position_relative_y": "0.098328416912487712",
+                "width_relative": "0.11041666666666666",
+                "height_relative": "0.19764011799410031",
+                "data_list": [
+                    {
+                        "id": "OUTPUT",
+                        "name": "scalar 0",
+                        "ignoreIfMissing": "false",
+                        "plotDeclaration": "cedar::aux::gui::MatDataPlot"
+                    }
+                ],
+                "plot configurations": [
+                    {
+                        "row": "1",
+                        "col": "0",
+                        "plot configuration": {
+                            "autoscaling": "true",
+                            "major grid visible": "false",
+                            "minor grid visible": "false",
+                            "y axis limits": {
+                                "lower limit": "0",
+                                "upper limit": "1"
+                            }
+                        }
+                    }
+                ]
+            },
+            "Vector To ScalarsWidget1": {
+                "step": "Vector To Scalars",
+                "position_x": "1219",
+                "position_y": "351",
+                "width": "212",
+                "height": "201",
+                "position_relative_x": "0.63489583333333333",
+                "position_relative_y": "0.34513274336283184",
+                "width_relative": "0.11041666666666666",
+                "height_relative": "0.19764011799410031",
+                "data_list": [
+                    {
+                        "id": "OUTPUT",
+                        "name": "scalar 1",
+                        "ignoreIfMissing": "false",
+                        "plotDeclaration": "cedar::aux::gui::MatDataPlot"
+                    }
+                ],
+                "plot configurations": [
+                    {
+                        "row": "1",
+                        "col": "0",
+                        "plot configuration": {
+                            "autoscaling": "true",
+                            "major grid visible": "false",
+                            "minor grid visible": "false",
+                            "y axis limits": {
+                                "lower limit": "0",
+                                "upper limit": "1"
+                            }
+                        }
+                    }
+                ]
+            },
+            "Vector To ScalarsWidget2": {
+                "step": "Vector To Scalars",
+                "position_x": "1214",
+                "position_y": "579",
+                "width": "212",
+                "height": "201",
+                "position_relative_x": "0.6322916666666667",
+                "position_relative_y": "0.56932153392330387",
+                "width_relative": "0.11041666666666666",
+                "height_relative": "0.19764011799410031",
+                "data_list": [
+                    {
+                        "id": "OUTPUT",
+                        "name": "scalar 2",
+                        "ignoreIfMissing": "false",
+                        "plotDeclaration": "cedar::aux::gui::MatDataPlot"
+                    }
+                ],
+                "plot configurations": [
+                    {
+                        "row": "1",
+                        "col": "0",
+                        "plot configuration": {
+                            "autoscaling": "true",
+                            "major grid visible": "false",
+                            "minor grid visible": "false",
+                            "y axis limits": {
+                                "lower limit": "0",
+                                "upper limit": "1"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "plot groups": "",
+        "architecture widgets": "",
+        "robots": {
+            "robot": {
+                "name": "new robot 2"
+            },
+            "robot": {
+                "name": "new robot 4"
+            },
+            "robot": {
+                "name": "new robot 5"
+            },
+            "robot": {
+                "name": "virtual Caren",
+                "template name": "kuka",
+                "loaded template configuration": "simulator",
+                "loaded template configuration name": "",
+                "CarenArm": {
+                    "initial configurations": {
+                        "center": {
+                            "0": "1.58760595",
+                            "1": "1.399441",
+                            "2": "-1.22938502",
+                            "3": "-1.43113196",
+                            "4": "0.0459670015",
+                            "5": "0.215645",
+                            "6": "0.129984006"
+                        },
+                        "zeros": {
+                            "0": "0",
+                            "1": "0",
+                            "2": "0",
+                            "3": "0",
+                            "4": "0",
+                            "5": "0",
+                            "6": "0"
+                        }
+                    },
+                    "current initial configuration": "center"
+                },
+                "CarenHead": {
+                    "initial configurations": {
+                        "zeros": {
+                            "0": "0",
+                            "1": "0"
+                        }
+                    },
+                    "current initial configuration": "zeros"
+                },
+                "CarenTrunk": {
+                    "initial configurations": {
+                        "zeros": {
+                            "0": "0"
+                        }
+                    },
+                    "current initial configuration": "zeros"
+                }
+            }
+        },
+        "width": "250",
+        "height": "250",
+        "smart mode": "false",
+        "collapsed": "false",
+        "lock geometry": "false",
+        "uncollapsed width": "250",
+        "uncollapsed height": "250",
+        "positionX": "0",
+        "positionY": "0"
+    }
+}
