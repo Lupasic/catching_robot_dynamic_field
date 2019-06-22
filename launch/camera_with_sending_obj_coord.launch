@@ -12,7 +12,7 @@
             <arg name="depth_height"        default="480"/>
             <arg name="enable_depth"        default="true"/>
 
-            <arg name="infra_width"        default="640"/>
+            <arg name="infra_width"        default="848"/>
             <arg name="infra_height"       default="480"/>
             <arg name="enable_infra1"       default="false"/>
             <arg name="enable_infra2"       default="false"/>
@@ -22,8 +22,8 @@
             <arg name="enable_color"        default="true"/>
 
             <arg name="fisheye_fps"         default="30"/>
-            <arg name="depth_fps"           default="60"/>
-            <arg name="infra_fps"           default="30"/>
+            <arg name="depth_fps"           default="90"/>
+            <arg name="infra_fps"           default="90"/>
             <arg name="color_fps"           default="60"/>
             <arg name="gyro_fps"            default="400"/>
             <arg name="accel_fps"           default="250"/>
@@ -34,7 +34,7 @@
             <arg name="pointcloud_texture_stream" default="RS2_STREAM_COLOR"/>
             <arg name="pointcloud_texture_index"  default="0"/>
 
-            <arg name="enable_sync"               default="true"/>
+            <arg name="enable_sync"               default="false"/>
             <arg name="align_depth"               default="true"/>
 
             <arg name="filters"                   default=""/>
@@ -57,7 +57,7 @@
 
     <node name="red_ball_tracker" pkg="catching_robot_dynamic_field" type="red_ball_tracker.py" output="screen"/>
 
-    <node name="camera_pixel_to_camera_obj" pkg="catching_robot_dynamic_field" type="camera_pixel_to_camera_obj.py" output="screen"/>
+    <!--<node name="camera_pixel_to_camera_obj" pkg="catching_robot_dynamic_field" type="camera_pixel_to_camera_obj.py" output="screen"/>-->
 
     <node name="tf_from_cam_to_robot" pkg="catching_robot_dynamic_field" type="tf_from_cam_to_robot.py" output="screen"/>
     

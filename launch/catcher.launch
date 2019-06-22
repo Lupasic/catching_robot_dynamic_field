@@ -1,0 +1,7 @@
+<launch>
+			<!-- Launch the camera -->
+	<node name="catcher" pkg="catching_robot_dynamic_field" type="catcher.py" output="screen"/>
+    
+    <node name="predict_catch_point" pkg="catching_robot_dynamic_field" type="predict_catch_point.py" output="screen"/>
+
+</launch>
