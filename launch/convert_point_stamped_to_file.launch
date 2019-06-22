@@ -1,0 +1,7 @@
+<launch> 
+ <node name="point_stamped_convert" pkg="catching_robot_dynamic_field" type="point_stamped_convert" respawn="false" output="screen">
+  	<param name="point_topic" value="/red_ball_xyz" />
+  	<param name="output_file_point" value="$(find catching_robot_dynamic_field)/out/output_file_point.txt" />
+  </node>
+
+</launch>
