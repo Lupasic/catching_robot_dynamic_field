@@ -14,8 +14,8 @@ import math3d as m3d
 class Catcher:
     def __init__(self):
         rospy.Subscriber( "catch_point", Point, self.callback )
-        self.ac = 4
-        self.v = 2
+        self.ac = 5
+        self.v = 5
         self.x_catch = np.array( [ [ 0. ],
                                    [ 0. ],
                                    [ 0.2 ] ] )
@@ -35,7 +35,7 @@ class Catcher:
 
     def callback(self, data):
         self.n +=1
-        if self.n > 3:#self.lock.acquire(False) == False and
+        if self.n > 5:#self.lock.acquire(False) == False and
             print("good",self.n)
             self.trans.pos.x = data.x
             self.trans.pos.y = data.y-0.08

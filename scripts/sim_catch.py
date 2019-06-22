@@ -4,9 +4,9 @@ import time
 
 import numpy as np
 import rospy
-from geometry_msgs.msg import Point
+from geometry_msgs.msg import Point, PointStamped
 
-pub = rospy.Publisher('red_ball_xyz', Point, queue_size=10)
+pub = rospy.Publisher('red_ball_xyz', PointStamped, queue_size=10)
 rospy.init_node('talker', anonymous=True)
 rate = rospy.Rate(30)  # 10hz
 g = -9.8
@@ -30,7 +30,10 @@ while not rospy.is_shutdown():
     X[4][0] += X[5][0] * dt + g * dt ** 2 / 2
     X[5][0] += g * dt
     if act_time - start_time > 2.5: break
-    current_point = Point(X[0][0], X[2][0], X[4][0])
+    current_point = PointStamped()
+    current_point.header.stamp = rospy.Time.now()
+    current_point.header.frame_id = "robot_base"
+    current_point.point = Point(X[0][0], X[2][0], X[4][0])
     pub.publish(current_point)
 
     rate.sleep()

@@ -5,7 +5,9 @@ import rospy
 import tf2_ros
 from fiducial_msgs.msg import FiducialTransformArray
 
-robot_base_offset = [0.256, 0.09+0.396, -0.341, -0.5, 0.5, 0.5, 0.5]
+# robot_base_offset = [0.256, 0.09+0.396, -0.341, -0.5, 0.5, 0.5, 0.5]
+robot_base_offset = [0.245, 0.09, -0.388, -0.5, 0.5, 0.5, 0.5]
+
 
 
 def TFcallback(data):

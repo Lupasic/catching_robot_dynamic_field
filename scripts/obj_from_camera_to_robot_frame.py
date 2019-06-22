@@ -5,7 +5,7 @@ import tf2_geometry_msgs  # import the packages first
 import tf2_ros
 from geometry_msgs.msg import PointStamped
 
-pub = rospy.Publisher('red_ball_xyz', PointStamped, queue_size=3)
+pub = rospy.Publisher('red_ball_xyz', PointStamped, queue_size=1)
 amount = 0
 
 def TFcallback(data):
@@ -24,7 +24,7 @@ def TFcallback(data):
     point_stamped_transformed.point = temp.point
     pub.publish(point_stamped_transformed)
     amount = amount +1
-    print(amount)
+    #print(amount)
 
 
 

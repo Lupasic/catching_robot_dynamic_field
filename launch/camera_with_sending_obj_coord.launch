@@ -22,7 +22,7 @@
             <arg name="enable_color"        default="true"/>
 
             <arg name="fisheye_fps"         default="30"/>
-            <arg name="depth_fps"           default="90"/>
+            <arg name="depth_fps"           default="60"/>
             <arg name="infra_fps"           default="90"/>
             <arg name="color_fps"           default="60"/>
             <arg name="gyro_fps"            default="400"/>
@@ -34,10 +34,10 @@
             <arg name="pointcloud_texture_stream" default="RS2_STREAM_COLOR"/>
             <arg name="pointcloud_texture_index"  default="0"/>
 
-            <arg name="enable_sync"               default="false"/>
+            <arg name="enable_sync"               default="true"/>
             <arg name="align_depth"               default="true"/>
 
-            <arg name="filters"                   default=""/>
+            <arg name="filters"                   default="temporal"/>
             <arg name="clip_distance"             default="-2"/>
             <arg name="linear_accel_cov"          default="0.01"/>
             <arg name="initial_reset"             default="false"/>
@@ -55,13 +55,13 @@
  		<arg name="fiducial_len" default="0.140"/> /// size of marker on paper in meters
 	</include>
 
-    <node name="red_ball_tracker" pkg="catching_robot_dynamic_field" type="red_ball_tracker.py" output="screen"/>
+    <!--<node name="red_ball_tracker" pkg="catching_robot_dynamic_field" type="red_ball_tracker.py" output="screen"/>-->
 
     <!--<node name="camera_pixel_to_camera_obj" pkg="catching_robot_dynamic_field" type="camera_pixel_to_camera_obj.py" output="screen"/>-->
 
     <node name="tf_from_cam_to_robot" pkg="catching_robot_dynamic_field" type="tf_from_cam_to_robot.py" output="screen"/>
     
-    <node name="obj_from_camera_to_robot_frame" pkg="catching_robot_dynamic_field" type="obj_from_camera_to_robot_frame.py" output="screen"/>
+    <!--<node name="obj_from_camera_to_robot_frame" pkg="catching_robot_dynamic_field" type="obj_from_camera_to_robot_frame.py" output="screen"/>-->
 
 
 
