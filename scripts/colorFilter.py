@@ -75,7 +75,7 @@ while True:
     # Blur a frame a litttle bit to remove noize
     frame = cv.GaussianBlur(frame, (5, 5), 0)
     #  Convert frame from BGR to HSV color space
-    hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
+    hsv = cv.cvtColor(frame, cv.COLOR_RGB2HSV)
     # Apply our filter
     mask = cv.inRange(hsv, LOWER, UPPER)
 
