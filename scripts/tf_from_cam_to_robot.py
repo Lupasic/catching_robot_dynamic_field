@@ -11,7 +11,7 @@ robot_base_offset = [0.245, 0.09, -0.388, -0.5, 0.5, 0.5, 0.5]
 
 
 def TFcallback(data):
-    global br1, br2, t1, t2
+    global br1, br2, t1, t2, r
     markers = iter(data.transforms)
     for marker in markers:
         if (marker.fiducial_id == 7):
@@ -34,11 +34,12 @@ def TFcallback(data):
             t2.transform.rotation.z = robot_base_offset[5]
             t2.transform.rotation.w = robot_base_offset[6]
             br2.sendTransform(t2)
+            r.sleep()
 
 
 if __name__ == '__main__':
     rospy.init_node('tf_from_cam_to_robot')
-
+    r = rospy.Rate(0.1)
     br1 = tf2_ros.TransformBroadcaster()
     t1 = geometry_msgs.msg.TransformStamped()
     t1.header.frame_id = "camera_color_optical_frame"

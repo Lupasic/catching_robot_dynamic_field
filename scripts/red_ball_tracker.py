@@ -56,12 +56,12 @@ def imageCallack(data):
                 print(cv2.contourArea(ball_cont))
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 current_point = Point(x + w / 2, y + h / 2, 0)
-                '''min_pix_depth = 1000000
+                min_pix_depth = 1000000
                 for i in range(int(current_point.y)- depth_roi[0]/2,int(current_point.y)+ depth_roi[0]/2, depth_step):
                     for i in range(int(current_point.x) - depth_roi[1]/ 2, int(current_point.x) + depth_roi[1] / 2, depth_step):
                         pixel_depth = float(cv_image[int(current_point.y)][int(current_point.x)]) * 0.001
                         if pixel_depth < min_pix_depth:
-                            min_pix_depth = pixel_depth'''
+                            min_pix_depth = pixel_depth
 
                 rw = 7.0
                 fl = 505.0
@@ -76,8 +76,8 @@ def imageCallack(data):
                 # print(hsv[:][y + h / 2][x + w / 2])
                 # print(cv2.contourArea(ball_cont))
                 # transform_to_point(current_point,pixel_depth)
-                # transform_to_point(current_point,min_pix_depth)
-                transform_to_point(current_point, z_dist)
+                transform_to_point(current_point,min_pix_depth)
+                # transform_to_point(current_point, z_dist)
                 pubim.publish(bridge.cv2_to_imgmsg(frame, "rgb8"))
             else:
                 cv2.rectangle(frame, (250, 650), (370,370), (0, 0, 255), 10)
@@ -110,8 +110,8 @@ def transform_to_point(data, pixel_depth):
 
 if __name__ == '__main__':
     rospy.init_node('red_ball_tracker', anonymous=True)
-    # rospy.Subscriber("/camera/aligned_depth_to_color/image_raw", Image, imageCallackDepth, queue_size=1)
-    # rospy.Subscriber("/camera/aligned_depth_to_color/camera_info", CameraInfo, cameraCallback)
+    rospy.Subscriber("/camera/aligned_depth_to_color/image_raw", Image, imageCallackDepth, queue_size=1)
+    rospy.Subscriber("/camera/aligned_depth_to_color/camera_info", CameraInfo, cameraCallback)
     rospy.Subscriber("/camera/color/camera_info", CameraInfo, cameraCallback)
     rospy.Subscriber("/camera/color/image_raw", Image, imageCallack, queue_size=1)
 
