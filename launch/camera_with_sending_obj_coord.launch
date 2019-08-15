@@ -1,29 +1,30 @@
 <launch>
 			<!-- Launch the camera -->
 	<include file="$(find realsense2_camera)/launch/rs_camera.launch">
-            <arg name="serial_no"           default=""/>
+		<arg name="align_depth"               default="true"/>
+           <!--  <arg name="serial_no"           default=""/>
             <arg name="json_file_path"      default=""/>
 
             <arg name="fisheye_width"       default="640"/>
             <arg name="fisheye_height"      default="480"/>
             <arg name="enable_fisheye"      default="false"/>
 
-            <arg name="depth_width"         default="848"/>
+            <arg name="depth_width"         default="640"/>
             <arg name="depth_height"        default="480"/>
             <arg name="enable_depth"        default="true"/>
 
-            <arg name="infra_width"        default="848"/>
+            <arg name="infra_width"        default="640"/>
             <arg name="infra_height"       default="480"/>
             <arg name="enable_infra1"       default="false"/>
             <arg name="enable_infra2"       default="false"/>
 
-            <arg name="color_width"         default="848"/>
+            <arg name="color_width"         default="640"/>
             <arg name="color_height"        default="480"/>
             <arg name="enable_color"        default="true"/>
 
             <arg name="fisheye_fps"         default="30"/>
             <arg name="depth_fps"           default="60"/>
-            <arg name="infra_fps"           default="90"/>
+            <arg name="infra_fps"           default="30"/>
             <arg name="color_fps"           default="60"/>
             <arg name="gyro_fps"            default="400"/>
             <arg name="accel_fps"           default="250"/>
@@ -37,7 +38,7 @@
             <arg name="enable_sync"               default="true"/>
             <arg name="align_depth"               default="true"/>
 
-            <arg name="filters"                   default="temporal"/>
+            <arg name="filters"                   default="spatial"/>
             <arg name="clip_distance"             default="-2"/>
             <arg name="linear_accel_cov"          default="0.01"/>
             <arg name="initial_reset"             default="false"/>
@@ -45,24 +46,26 @@
             <arg name="topic_odom_in"             default="odom_in"/>
             <arg name="calib_odom_file"           default=""/>
             <arg name="publish_odom_tf"           default="true"/>
-            <arg name="allow_no_texture_points"   default="false"/>
+            <arg name="allow_no_texture_points"   default="false"/> -->
 	</include>
 
 	<include file="$(find aruco_detect)/launch/aruco_detect.launch">
- 		<arg name="camera" default="camera/color"/>  /// source of images from camera
+ 		<!-- <arg name="camera" default="camera/color"/>  /// source of images from camera -->
+        <arg name="camera" default="camera"/>  /// source of images from camera
  		<arg name="image" default="image_raw"/> /// type of images
+        <!-- <arg name="image" default="image_raw"/> /// type of images -->
  		<arg name="transport" default="compressed"/>
  		<arg name="fiducial_len" default="0.140"/> /// size of marker on paper in meters
 	</include>
+
+	<!-- <param name="robot_description"
+     command="$(find topic_tools)/throttle messages fiducial_transforms 1.0"/> -->
+
+    <node name="aruco_delay" pkg="catching_robot_dynamic_field" type="aruco_delay.py" output="screen"/>
 
     <node name="red_ball_tracker" pkg="catching_robot_dynamic_field" type="red_ball_tracker.py" output="screen"/>
 
     <node name="tf_from_cam_to_robot" pkg="catching_robot_dynamic_field" type="tf_from_cam_to_robot.py" output="screen"/>
    
     <node name="obj_from_camera_to_robot_frame" pkg="catching_robot_dynamic_field" type="obj_from_camera_to_robot_frame.py" output="screen"/>
-
-
-
-
-
 </launch>

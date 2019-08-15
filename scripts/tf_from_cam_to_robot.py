@@ -9,7 +9,6 @@ from fiducial_msgs.msg import FiducialTransformArray
 robot_base_offset = [0.245, 0.09, -0.388, -0.5, 0.5, 0.5, 0.5]
 
 
-
 def TFcallback(data):
     global br1, br2, t1, t2
     markers = iter(data.transforms)
@@ -49,5 +48,6 @@ if __name__ == '__main__':
     t2.header.frame_id = "aruco_marker_7"
     t2.child_frame_id = "robot_base"
 
-    rospy.Subscriber("/fiducial_transforms", FiducialTransformArray, TFcallback)
+    rospy.Subscriber("/fiducial_transforms",
+                     FiducialTransformArray, TFcallback)
     rospy.spin()
