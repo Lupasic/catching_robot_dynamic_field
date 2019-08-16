@@ -10,7 +10,7 @@ from sensor_msgs.msg import Image, CameraInfo
 
 pub = rospy.Publisher('camera_pixel_to_camera_obj', PointStamped, queue_size=1)
 # uncomment pubim for debugging
-pubim = rospy.Publisher('im_from_myau', Image, queue_size=1)
+pubim = rospy.Publisher('tracking_image', Image, queue_size=1)
 
 # Start delay to compensate bluish effect
 IMAGE_DELAY = 150
@@ -54,10 +54,10 @@ def imageCallack(data):
 
         frame = bridge.imgmsg_to_cv2(data, desired_encoding="passthrough")
 
-        frame = frame[:, 300:]
-        pubim.publish(bridge.cv2_to_imgmsg(frame, "rgb8"))
+        # frame = frame[:, 300:]
 
         if first is None:
+            print("Ready")
             first = frame
 
         sub1 = cv2.subtract(frame, first)
@@ -123,8 +123,13 @@ def imageCallack(data):
                 transform_to_point(current_point, pixel_depth)
 
         # print(time.time() - t)
-        pubim.publish(bridge.cv2_to_imgmsg(frame, "rgb8"))
-        # pubim.publish(bridge.cv2_to_imgmsg(dif, "mono8"))
+        # pubim.publish(bridge.cv2_to_imgmsg(frame, "rgb8"))
+
+        dif = cv2.cvtColor(dif, cv2.COLOR_GRAY2RGB)
+        bar = np.ones_like(frame) * 255
+        bar = bar[0:bar.shape[0], 0:10]
+        numpy_horizontal = np.hstack((dif, bar, frame))
+        pubim.publish(bridge.cv2_to_imgmsg(numpy_horizontal, "rgb8"))
 
 
 def imageCallackDepth(data):
@@ -145,7 +150,6 @@ def transform_to_point(data, pixel_depth):
 
 
 if __name__ == '__main__':
-    global K
     rospy.init_node('red_ball_tracker', anonymous=True)
 
     K = rospy.wait_for_message("/camera/aligned_depth_to_color/camera_info", CameraInfo).K

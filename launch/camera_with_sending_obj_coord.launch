@@ -49,19 +49,14 @@
             <arg name="allow_no_texture_points"   default="false"/> -->
 	</include>
 
+    <node name="aruco_delay" pkg="catching_robot_dynamic_field" type="aruco_delay.py" output="screen"/>
+
 	<include file="$(find aruco_detect)/launch/aruco_detect.launch">
- 		<!-- <arg name="camera" default="camera/color"/>  /// source of images from camera -->
-        <arg name="camera" default="camera"/>  /// source of images from camera
+        <arg name="camera" default="camera/aruco_delay"/>  /// source of images from camera
  		<arg name="image" default="image_raw"/> /// type of images
         <!-- <arg name="image" default="image_raw"/> /// type of images -->
- 		<arg name="transport" default="compressed"/>
  		<arg name="fiducial_len" default="0.140"/> /// size of marker on paper in meters
 	</include>
-
-	<!-- <param name="robot_description"
-     command="$(find topic_tools)/throttle messages fiducial_transforms 1.0"/> -->
-
-    <node name="aruco_delay" pkg="catching_robot_dynamic_field" type="aruco_delay.py" output="screen"/>
 
     <node name="red_ball_tracker" pkg="catching_robot_dynamic_field" type="red_ball_tracker.py" output="screen"/>
 

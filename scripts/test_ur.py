@@ -6,17 +6,17 @@ import numpy as np
 import urx
 
 robot = urx.Robot("192.168.1.2", use_rt=True)
-ac = 1
-v = 1
+ac = 0.1
+v = 0.1
 
-for i in range(2):
+for i in range(1):
     time.sleep(1)
     trans = robot.get_pose()
-    robot.up(5)
+    # robot.up(5)
     print(trans)
     trans.pos.x = 0.0
     trans.pos.y = 0.6
-    trans.pos.z = 0.2
+    trans.pos.z = 0.0
     trans.orient = np.zeros((3, 3))
     trans.orient[0][0] = -1.
     trans.orient[1][2] = 1.
