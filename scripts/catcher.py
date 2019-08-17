@@ -53,7 +53,7 @@ class Catcher:
         self.trans.orient[ 0 ][ 0 ] = -1.
         self.trans.orient[ 1 ][ 2 ] = 1.
         self.trans.orient[ 2 ][ 1 ] = 1.
-        self.robot.set_pose( self.trans, acc=self.ac, vel=self.v, wait=True )
+        self.robot.set_pose( self.trans, acc=self.ac, vel=self.v, wait=False)
         time.sleep( 1 )
 
 rospy.init_node( 'listener', anonymous=True )

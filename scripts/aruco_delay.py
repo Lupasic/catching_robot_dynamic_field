@@ -5,7 +5,7 @@ from sensor_msgs.msg import CompressedImage, CameraInfo
 
 info = None
 
-RATE = 0.5
+RATE = 0.2
 
 
 def delay_image():
@@ -16,7 +16,6 @@ def delay_image():
         '/camera/aruco_delay/image_raw/compressed', CompressedImage, queue_size=1)
     rate = rospy.Rate(RATE)
     while not rospy.is_shutdown():
-        print("Publishing")
         image = rospy.wait_for_message(
             "/camera/color/image_raw/compressed", CompressedImage)
         image_publisher.publish(image)

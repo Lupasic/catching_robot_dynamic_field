@@ -26,7 +26,7 @@ def TFcallback(data):
     point_stamped_transformed.point = temp.point
     pub.publish(point_stamped_transformed)
     amount = amount + 1
-    print(amount)
+    # print(amount)
 
 
 if __name__ == '__main__':
