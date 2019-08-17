@@ -12,7 +12,9 @@ pub = rospy.Publisher('camera_pixel_to_camera_obj', PointStamped, queue_size=1)
 # uncomment pubim for debugging
 # pubim = rospy.Publisher('tracking_image', Image, queue_size=1)
 
+# Allowed depth
 MAX_DEPTH = 5.0
+MIN_DEPTH = 1.0
 
 # Start delay to compensate bluish effect
 IMAGE_DELAY = 200
@@ -147,7 +149,7 @@ def imageCallack(data):
 
                 # pixel_depth = depth_sum / count
                 # print(round(pixel_depth, 2))
-                if (pixel_depth <= MAX_DEPTH):
+                if (pixel_depth <= MAX_DEPTH and pixel_depth >= MIN_DEPTH):
                     transform_to_point(current_point, pixel_depth)
 
         # print(time.time() - t)
